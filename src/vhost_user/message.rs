@@ -8,6 +8,7 @@
 #![allow(dead_code)]
 #![allow(non_camel_case_types)]
 
+use std::fmt;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
@@ -380,6 +381,13 @@ impl VhostUserU64 {
     /// Create a new instance.
     pub fn new(value: u64) -> Self {
         VhostUserU64 { value }
+    }
+}
+
+impl fmt::Debug for VhostUserU64 {
+    fn fmt(&self, fmt: &mut ::std::fmt::Formatter) -> ::std::fmt::Result {
+        let tv = self.value;
+        write!(fmt, "VhostUserU64: {:#18x}", tv)
     }
 }
 
