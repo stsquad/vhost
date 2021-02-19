@@ -159,7 +159,7 @@ impl<S: VhostUserSlaveReqHandler> SlaveReqHandler<S> {
             }
             MasterReq::SET_MEM_TABLE => {
                 let res = self.set_mem_table(&hdr, size, &buf, rfds);
-                self.send_ack_message(&hdr, res)?;
+                self.send_ack_message_always(&hdr, res)?;
             }
             MasterReq::SET_VRING_NUM => {
                 let msg = self.extract_request_body::<VhostUserVringState>(&hdr, size, &buf)?;
