@@ -580,6 +580,21 @@ impl<S: VhostUserSlaveReqHandler> SlaveReqHandler<S> {
         Ok(())
     }
 
+    fn send_ack_message_always(
+        &mut self,
+        req: &VhostUserMsgHeader<MasterReq>,
+        res: Result<()>,
+    ) -> Result<()> {
+        let hdr = self.new_reply_header::<VhostUserU64>(req, 0)?;
+        let val = match res {
+            Ok(_) => 0,
+            Err(_) => 1,
+        };
+        let msg = VhostUserU64::new(val);
+        self.main_sock.send_message(&hdr, &msg, None)?;
+        Ok(())
+    }
+
     fn send_reply_message<T>(
         &mut self,
         req: &VhostUserMsgHeader<MasterReq>,
